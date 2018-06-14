@@ -2,17 +2,20 @@
   (:require [clojure.set :as set]
             [clojure.spec.alpha :as s]))
 
+(s/def ::nilable-set
+  (s/nilable set?))
+
 (s/def ::nullary
   (s/cat))
 
 (s/def ::unary
-  (s/cat :s1 set?))
+  (s/cat :s1 ::nilable-set))
 
 (s/def ::binary
-  (s/cat :s1 set? :s2 set?))
+  (s/cat :s1 ::nilable-set :s2 ::nilable-set))
 
 (s/def ::variadic
-  (s/cat :s1 set? :s2 set? :sets (s/* set?)))
+  (s/cat :s1 ::nilable-set :s2 ::nilable-set :sets (s/* ::nilable-set)))
 
 (s/fdef set/union
   :args (s/alt :nullary ::nullary
@@ -39,7 +42,7 @@
 
 (s/fdef set/select
   :args (s/cat :pred ::pred
-               :xset set?)
+               :xset ::nilable-set)
   :ret set?)
 
 (s/fdef set/project
@@ -74,11 +77,11 @@
                                :km map?)))
 
 (s/fdef set/subset?
-  :args (s/cat :set1 set?
-               :set2 set?)
+  :args (s/cat :set1 ::nilable-set
+               :set2 ::nilable-set)
   :ret boolean?)
 
 (s/fdef set/superset?
-  :args (s/cat :set1 set?
-               :set2 set?)
+  :args (s/cat :set1 ::nilable-set
+               :set2 ::nilable-set)
   :ret boolean?)
