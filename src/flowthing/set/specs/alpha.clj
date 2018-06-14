@@ -35,7 +35,7 @@
 
 (s/def ::pred
   (s/fspec :args (s/cat :any any?)
-           :ret boolean?))
+           :ret any?))
 
 (s/fdef set/select
   :args (s/cat :pred ::pred
