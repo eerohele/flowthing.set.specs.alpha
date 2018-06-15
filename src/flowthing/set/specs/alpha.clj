@@ -12,10 +12,13 @@
   (s/cat :s1 ::nilable-set))
 
 (s/def ::binary
-  (s/cat :s1 ::nilable-set :s2 ::nilable-set))
+  (s/cat :s1 ::nilable-set
+         :s2 ::nilable-set))
 
 (s/def ::variadic
-  (s/cat :s1 ::nilable-set :s2 ::nilable-set :sets (s/* ::nilable-set)))
+  (s/cat :s1 ::nilable-set
+         :s2 ::nilable-set
+         :sets (s/* ::nilable-set)))
 
 (s/fdef set/union
   :args (s/alt :nullary ::nullary
