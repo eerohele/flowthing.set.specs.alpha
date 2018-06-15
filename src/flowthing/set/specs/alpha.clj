@@ -22,19 +22,19 @@
                :unary ::unary
                :binary ::binary
                :variadic ::variadic)
-  :ret set?)
+  :ret ::nilable-set)
 
 (s/fdef set/intersection
   :args (s/alt :unary ::unary
                :binary ::binary
                :variadic ::variadic)
-  :ret set?)
+  :ret ::nilable-set)
 
 (s/fdef set/difference
   :args (s/alt :unary ::unary
                :binary ::binary
                :variadic ::variadic)
-  :ret set?)
+  :ret ::nilable-set)
 
 (s/def ::pred
   (s/fspec :args (s/cat :any any?)
@@ -43,7 +43,7 @@
 (s/fdef set/select
   :args (s/cat :pred ::pred
                :xset ::nilable-set)
-  :ret set?)
+  :ret ::nilable-set)
 
 (s/fdef set/project
   :args (s/cat :xrel (s/coll-of map?)
