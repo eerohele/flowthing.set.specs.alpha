@@ -5,6 +5,12 @@
 (s/def ::nilable-set
   (s/nilable set?))
 
+(s/def ::nilable-map
+  (s/nilable map?))
+
+(s/def ::rel
+  (s/nilable (s/coll-of ::nilable-map)))
+
 (s/def ::nullary
   (s/cat))
 
@@ -49,35 +55,35 @@
   :ret ::nilable-set)
 
 (s/fdef set/project
-  :args (s/cat :xrel (s/coll-of map?)
+  :args (s/cat :xrel ::rel
                :ks sequential?)
   :ret set?)
 
 (s/fdef set/rename-keys
-  :args (s/cat :map map?
-               :kmap map?)
-  :ret map?)
+  :args (s/cat :map ::nilable-map
+               :kmap ::nilable-map)
+  :ret ::nilable-map)
 
 (s/fdef set/rename
-  :args (s/cat :xrel (s/coll-of map?)
-               :kmap map?)
+  :args (s/cat :xrel ::rel
+               :kmap ::nilable-map)
   :ret set?)
 
 (s/fdef set/index
-  :args (s/cat :xrel (s/coll-of map?)
+  :args (s/cat :xrel ::rel
                :ks sequential?)
-  :ret map?)
+  :ret ::nilable-map)
 
 (s/fdef set/map-invert
-  :args (s/cat :m map?)
+  :args (s/cat :m ::nilable-map)
   :ret map?)
 
 (s/fdef set/join
-  :args (s/alt :binary (s/cat :xrel (s/coll-of map?)
-                              :yrel (s/coll-of map?))
-               :ternary (s/cat :xrel (s/coll-of map?)
-                               :yrel (s/coll-of map?)
-                               :km map?)))
+  :args (s/alt :binary (s/cat :xrel ::rel
+                              :yrel ::rel)
+               :ternary (s/cat :xrel ::rel
+                               :yrel ::rel
+                               :km ::nilable-map)))
 
 (s/fdef set/subset?
   :args (s/cat :set1 ::nilable-set
