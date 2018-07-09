@@ -83,7 +83,8 @@
                               :yrel ::rel)
                :ternary (s/cat :xrel ::rel
                                :yrel ::rel
-                               :km ::nilable-map)))
+                               :km ::nilable-map))
+  :ret set?)
 
 (s/fdef set/subset?
   :args (s/cat :set1 ::nilable-set
