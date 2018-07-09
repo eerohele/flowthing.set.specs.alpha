@@ -72,7 +72,7 @@
 (s/fdef set/index
   :args (s/cat :xrel ::rel
                :ks sequential?)
-  :ret ::nilable-map)
+  :ret map?)
 
 (s/fdef set/map-invert
   :args (s/cat :m ::nilable-map)
