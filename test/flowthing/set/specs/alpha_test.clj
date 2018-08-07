@@ -13,18 +13,26 @@
 
 (deftest union
   (is (= #{1 2 3} (set/union #{1 2} #{3})))
+  (is (= #{1 2} (set/union #{1 2} nil)))
+  (is (= nil (set/union nil nil)))
   (is (thrown? ExceptionInfo (set/union #{1 2} [3]))))
 
 (deftest intersection
   (is (= #{1} (set/intersection #{1 2} #{1})))
+  (is (= nil (set/intersection nil #{1})))
+  (is (= nil (set/intersection nil nil)))
   (is (thrown? ExceptionInfo (set/intersection #{1 2} [1]))))
 
 (deftest difference
   (is (= #{2} (set/difference #{1 2} #{1})))
+  (is (= nil (set/difference nil #{1})))
+  (is (= #{1 2} (set/difference #{1 2} nil)))
+  (is (= nil (set/difference nil nil)))
   (is (thrown? ExceptionInfo (set/difference #{1 2} [1]))))
 
 (deftest select
   (is (= #{1 2} (set/select int? #{1 2 :a})))
+  (is (= nil (set/select int? nil)))
   (is (thrown? ExceptionInfo (set/select int #{1 2 :a}))))
 
 (deftest project
