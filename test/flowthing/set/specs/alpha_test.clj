@@ -2,14 +2,14 @@
   (:require [clojure.set :as set]
             [clojure.spec.test.alpha :as spec.test]
             [clojure.test :refer [deftest is use-fixtures]]
-            [expound.alpha :as expound]
             [flowthing.set.specs.alpha])
   (:import (clojure.lang ExceptionInfo)))
 
-(use-fixtures :once (fn [f]
-                      (spec.test/instrument)
-                      (f)
-                      (spec.test/unstrument)))
+(use-fixtures :once
+  (fn [f]
+    (spec.test/instrument)
+    (f)
+    (spec.test/unstrument)))
 
 (deftest union
   (is (= #{1 2 3} (set/union #{1 2} #{3})))
@@ -96,12 +96,8 @@
   (is (true? (set/superset? #{:a :b} nil)))
   (is (thrown? ExceptionInfo (set/superset? [:a :b] [:a]))))
 
-(defn- ns-syms
-  [ns]
-  (->> ns (ns-publics) (keys) (map #(symbol (str ns) (str %)))))
-
 (deftest check
   (let [opts {:clojure.spec.test.check/opts {:num-tests 50}}
-        results (spec.test/check (ns-syms 'clojure.set) opts)]
-    (is (not (contains? (::spec.test/ret results) :fail))
-        (expound/explain-results results))))
+        results (spec.test/check (spec.test/enumerate-namespace 'clojure.set) opts)]
+    (when-not (contains? (::spec.test/ret results) :fail)
+        (spec.test/summarize-results results))))
